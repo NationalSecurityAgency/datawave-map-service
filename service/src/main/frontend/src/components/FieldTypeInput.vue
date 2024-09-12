@@ -50,7 +50,7 @@ const fieldType = ref<FieldType>({
   field: '',
   type: {
     label: '',
-    value: ''
+    value: '',
   },
 });
 

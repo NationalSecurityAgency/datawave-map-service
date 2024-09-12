@@ -1,8 +1,18 @@
 <template>
-  <AddContentPanel v-if="appStateStore().getConfigPanelSelection === 'Add'" :supportedGeometries="supportedGeometries" />
-  <ContentPanel v-else-if="appStateStore().getConfigPanelSelection === 'Content'" />
-  <BasemapPanel v-else-if="appStateStore().getConfigPanelSelection === 'Basemaps'" />
-  <GeoToolboxPanel v-else-if="appStateStore().getConfigPanelSelection === 'Geo Toolbox'" :supportedGeometries="supportedGeometries" />
+  <AddContentPanel
+    v-if="appStateStore().getConfigPanelSelection === 'Add'"
+    :supportedGeometries="supportedGeometries"
+  />
+  <ContentPanel
+    v-else-if="appStateStore().getConfigPanelSelection === 'Content'"
+  />
+  <BasemapPanel
+    v-else-if="appStateStore().getConfigPanelSelection === 'Basemaps'"
+  />
+  <GeoToolboxPanel
+    v-else-if="appStateStore().getConfigPanelSelection === 'Geo Toolbox'"
+    :supportedGeometries="supportedGeometries"
+  />
 </template>
 
 <script setup lang="ts">
@@ -16,5 +26,4 @@ export interface ConfigPanelProps {
   supportedGeometries: string[];
 }
 defineProps<ConfigPanelProps>();
-
 </script>

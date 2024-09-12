@@ -16,9 +16,8 @@ export class SimpleMapStore {
     minZoom: number,
     crs: string
   ) {
-
     let CRS;
-    switch(crs) {
+    switch (crs) {
       case 'Earth':
         CRS = L.CRS.Earth;
         break;

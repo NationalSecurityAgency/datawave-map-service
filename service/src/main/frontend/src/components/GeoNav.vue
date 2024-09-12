@@ -6,5 +6,4 @@
 import { TypedFeature } from './models';
 
 const props = defineProps<TypedFeature>();
-
 </script>

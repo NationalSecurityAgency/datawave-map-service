@@ -1,5 +1,14 @@
 <template>
-  <div style="height: 100%; width: 500px; max-width: 500px; background: white; display: flex; flex-direction: column">
+  <div
+    style="
+      height: 100%;
+      width: 500px;
+      max-width: 500px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    "
+  >
     <q-card square class="bg-secondary text-white q-px-md q-py-sm">
       <q-card-section horizontal>
         <div class="text-h6" style="flex-grow: 1">Content</div>
@@ -14,20 +23,31 @@
     </q-card>
     <q-bar dark class="bg-primary text-white">
       <q-btn dense flat icon="home" @click="initContent" />
-      <q-btn v-if="content.getFeatureChain.length > 0" dense flat icon="arrow_back" @click="content.navigateBack" />
-      <GeoNav 
-          v-if="content.getFeatureChain.length > 0"
-          v-bind="content.getRootFeature"
-        />
+      <q-btn
+        v-if="content.getFeatureChain.length > 0"
+        dense
+        flat
+        icon="arrow_back"
+        @click="content.navigateBack"
+      />
+      <GeoNav
+        v-if="content.getFeatureChain.length > 0"
+        v-bind="content.getRootFeature"
+      />
     </q-bar>
-    <q-scroll-area style="flex-grow: 1;" content-style="width: 500px; max-weidth: 500px;">
-      <q-list bordered separator style="width: 500px; max-width: 500px;">
-        <q-item-label v-if="content.getFeatureChain.length > 1" header>{{ getLabel(content.getCurrentFeature) }}</q-item-label>
+    <q-scroll-area
+      style="flex-grow: 1"
+      content-style="width: 500px; max-weidth: 500px;"
+    >
+      <q-list bordered separator style="width: 500px; max-width: 500px">
+        <q-item-label v-if="content.getFeatureChain.length > 1" header>{{
+          getLabel(content.getCurrentFeature)
+        }}</q-item-label>
         <GeoItem
-            v-for="typedFeature in content.getContent"
-            :key="getLabel(typedFeature)"
-            v-bind="{feature: typedFeature}"
-          />
+          v-for="typedFeature in content.getContent"
+          :key="getLabel(typedFeature)"
+          v-bind="{ feature: typedFeature }"
+        />
       </q-list>
     </q-scroll-area>
   </div>
@@ -52,5 +72,4 @@ function initContent() {
 onMounted(() => {
   initContent();
 });
-
 </script>

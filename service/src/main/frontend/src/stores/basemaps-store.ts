@@ -15,7 +15,7 @@ export const basemapsStore = defineStore('basemaps', {
     },
     getBasemaps(): Basemap[] {
       return this.basemaps as Basemap[];
-    }
+    },
   },
   actions: {
     async initialize() {
@@ -25,12 +25,12 @@ export const basemapsStore = defineStore('basemaps', {
             .get('/map/v1/basemaps')
             .then((response) => {
               const basemapsConfig = response.data as {
-                title: string,
-                urlTemplate: string,
-                maxZoom?: number,
-                maxNativeZoom?: number,
-                attribution: string,
-                default?: boolean
+                title: string;
+                urlTemplate: string;
+                maxZoom?: number;
+                maxNativeZoom?: number;
+                attribution: string;
+                default?: boolean;
               }[];
 
               let defaultSet = false;
@@ -41,17 +41,16 @@ export const basemapsStore = defineStore('basemaps', {
                   tileLayer: L.tileLayer(basemapConfig.urlTemplate, {
                     maxZoom: basemapConfig.maxZoom,
                     maxNativeZoom: basemapConfig.maxNativeZoom,
-                    attribution: basemapConfig.attribution
+                    attribution: basemapConfig.attribution,
                   }),
-                  default: basemapConfig.default
-                } as Basemap
+                  default: basemapConfig.default,
+                } as Basemap;
 
                 this.basemaps.push(basemap);
                 if (!defaultSet) {
                   this.basemap = basemap;
                   defaultSet = true;
                 } else {
-                  
                 }
               }
               resolve(this.basemaps);
@@ -65,7 +64,7 @@ export const basemapsStore = defineStore('basemaps', {
     },
     setBasemap(basemap: Basemap) {
       this.basemap = basemap;
-    }
+    },
   },
 });
 

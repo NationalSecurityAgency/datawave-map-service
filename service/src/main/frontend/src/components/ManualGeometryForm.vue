@@ -9,7 +9,11 @@
             @update:model-value="loadFile"
             style="display: none"
           />
-          <q-input v-model="manualGeometryForm.geometry" :label='"Geometry (" + supportedGeometries.join("/") + ")"' spellcheck="false" >
+          <q-input
+            v-model="manualGeometryForm.geometry"
+            :label="'Geometry (' + supportedGeometries.join('/') + ')'"
+            spellcheck="false"
+          >
             <template v-slot:append>
               <q-btn
                 dense
@@ -127,7 +131,15 @@
       </q-card-actions>
     </q-card-section>
 
-    <CardLoading ref="cardLoading" @doneClick="cardOpacity=1.0; if (success) { manualGeometryForm.$reset(); };" />
+    <CardLoading
+      ref="cardLoading"
+      @doneClick="
+        cardOpacity = 1.0;
+        if (success) {
+          manualGeometryForm.$reset();
+        }
+      "
+    />
   </q-card>
   <q-dialog v-model="editDialog">
     <q-card style="min-width: 66%">
@@ -234,7 +246,8 @@ function submitGeometry() {
   cardLoading.value?.loading('Loading geometry.  Please wait...');
   success.value = false;
 
-  geoQueryFeatures.loadGeoFeaturesForGeometry(manualGeometryForm.$state)
+  geoQueryFeatures
+    .loadGeoFeaturesForGeometry(manualGeometryForm.$state)
     .then(() => {
       cardLoading.value?.success('Geometry loaded successfully!');
       success.value = true;

@@ -1,5 +1,14 @@
 <template>
-  <div style="height: 100%; width: 500px; max-width: 500px; background: white; display: flex; flex-direction: column">
+  <div
+    style="
+      height: 100%;
+      width: 500px;
+      max-width: 500px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    "
+  >
     <q-card square class="bg-secondary text-white q-px-md q-py-sm">
       <q-card-section horizontal>
         <div class="text-h6" style="flex-grow: 1">Basemaps</div>
@@ -12,13 +21,16 @@
         />
       </q-card-section>
     </q-card>
-    <q-scroll-area style="flex-grow: 1;" content-style="width: 500px; max-weidth: 500px;">
-      <q-list bordered separator style="width: 500px; max-width: 500px;">
+    <q-scroll-area
+      style="flex-grow: 1"
+      content-style="width: 500px; max-weidth: 500px;"
+    >
+      <q-list bordered separator style="width: 500px; max-width: 500px">
         <BasemapItem
-            v-for="basemap in basemaps.getBasemaps"
-            :key="basemap.title"
-            v-bind="{ basemap: basemap, selection: selectionRef() }"
-          />
+          v-for="basemap in basemaps.getBasemaps"
+          :key="basemap.title"
+          v-bind="{ basemap: basemap, selection: selectionRef() }"
+        />
       </q-list>
     </q-scroll-area>
   </div>
@@ -38,5 +50,4 @@ const selection = ref(basemaps.getBasemap.title);
 function selectionRef(): Ref<string> {
   return selection;
 }
-
 </script>

@@ -1,7 +1,9 @@
 <template>
   <q-layout view="hHh Lpr fFf" style="height: 100vh">
     <q-header elevated>
-      <div v-if="header?.enabled" :style="header?.style">{{ header?.message }}</div>
+      <div v-if="header?.enabled" :style="header?.style">
+        {{ header?.message }}
+      </div>
       <q-toolbar class="bg-grey-9 text-white">
         <q-btn
           flat
@@ -20,7 +22,7 @@
 
     <q-drawer
       v-model="drawer"
-      :width='225'
+      :width="225"
       show-if-above
       :mini="!drawer || mini"
       bordered
@@ -51,7 +53,9 @@
       <router-view />
     </q-page-container>
     <q-footer>
-      <div v-if="footer?.enabled" :style="footer?.style">{{ footer?.message }}</div>
+      <div v-if="footer?.enabled" :style="footer?.style">
+        {{ footer?.message }}
+      </div>
     </q-footer>
   </q-layout>
   <q-ajax-bar position="bottom" color="accent" size="10px" />
@@ -59,13 +63,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import MenuItem, {
-  MenuItemProps,
-} from 'components/MenuItem.vue';
+import MenuItem, { MenuItemProps } from 'components/MenuItem.vue';
 import { appStateStore } from 'stores/state-store';
 import { onMounted } from 'vue';
 import { api } from 'boot/axios';
-import { Banner } from 'components/models'
+import { Banner } from 'components/models';
 
 const appState = appStateStore();
 
@@ -167,5 +169,5 @@ onMounted(() => {
     .catch((reason) => {
       console.log('Something went wrong? ' + reason);
     });
-})
+});
 </script>

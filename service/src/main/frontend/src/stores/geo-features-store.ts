@@ -1,7 +1,23 @@
 import { defineStore } from 'pinia';
-import { DelegateTypedFeature, Geo, GeoByField, GeoByTier, GeoFeatures, GeoFunction, GeoQueryFeatures, GeoTerms, ManualGeometryForm, TypedFeature } from 'src/components/models';
+import {
+  DelegateTypedFeature,
+  Geo,
+  GeoByField,
+  GeoByTier,
+  GeoFeatures,
+  GeoFunction,
+  GeoQueryFeatures,
+  GeoTerms,
+  ManualGeometryForm,
+  TypedFeature,
+} from 'src/components/models';
 import { api } from 'boot/axios';
-import { GeoJsonObject, FeatureCollection, Feature, GeoJsonProperties } from 'geojson';
+import {
+  GeoJsonObject,
+  FeatureCollection,
+  Feature,
+  GeoJsonProperties,
+} from 'geojson';
 import { simpleMapStore } from './simple-map-store';
 import { markRaw } from 'vue';
 import { onEachFeature } from './feature-info-store';
@@ -26,7 +42,6 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
       expand?: boolean
     ) {
       return new Promise((resolve, reject) => {
-
         let fieldTypesString = '';
         if (fieldTypes != null) {
           fieldTypes.forEach((value, key) => {
@@ -40,7 +55,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
         const formData = new FormData();
         formData.append('plan', query);
         formData.append('fieldTypes', fieldTypesString);
-        formData.append('expand', (expand || false).toString())
+        formData.append('expand', (expand || false).toString());
 
         api
           .post('/map/v1/getGeoFeaturesForQuery', formData, undefined)
@@ -59,7 +74,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             geoQueryFeatures.query = query;
             assignTypesAndLabelsVisitor(geoQueryFeatures);
             createLayers(geoQueryFeatures);
-            for (const geoFunction of geoQueryFeatures.functions){
+            for (const geoFunction of geoQueryFeatures.functions) {
               enableLayers(geoFunction);
             }
 
@@ -70,12 +85,12 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             console.log('Something went wrong? ' + reason);
             reject(reason);
           });
-      })
+      });
     },
     async loadGeoFeaturesForQueryId(queryId: string) {
       return new Promise((resolve, reject) => {
         const params: { queryId: string } = {
-          queryId: queryId
+          queryId: queryId,
         };
 
         api
@@ -97,7 +112,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             geoQueryFeatures.queryId = queryId;
             assignTypesAndLabelsVisitor(geoQueryFeatures);
             createLayers(geoQueryFeatures);
-            for (const geoFunction of geoQueryFeatures.functions){
+            for (const geoFunction of geoQueryFeatures.functions) {
               enableLayers(geoFunction);
             }
 
@@ -108,29 +123,48 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             console.log('Something went wrong? ' + reason);
             reject(reason);
           });
-      })
+      });
     },
     async loadGeoFeaturesForGeometry(geometryFormData: ManualGeometryForm) {
       return new Promise((resolve, reject) => {
         const formData = new FormData();
         formData.append('geometry', geometryFormData.geometry);
 
-        if (geometryFormData.createRanges){
-          formData.append('createRanges', geometryFormData.createRanges.toString());
+        if (geometryFormData.createRanges) {
+          formData.append(
+            'createRanges',
+            geometryFormData.createRanges.toString()
+          );
           formData.append('rangeType', geometryFormData.rangeType);
 
-          const rangeSettings = geometryFormData.rangeSettings[geometryFormData.rangeType];
-          formData.append('maxEnvelopes', rangeSettings.maxEnvelopes.toString());
-          formData.append('maxExpansion', rangeSettings.maxExpansion.toString());
+          const rangeSettings =
+            geometryFormData.rangeSettings[geometryFormData.rangeType];
+          formData.append(
+            'maxEnvelopes',
+            rangeSettings.maxEnvelopes.toString()
+          );
+          formData.append(
+            'maxExpansion',
+            rangeSettings.maxExpansion.toString()
+          );
 
           if (rangeSettings.optimizeRanges) {
-            formData.append('optimizeRanges', rangeSettings.optimizeRanges.toString());
+            formData.append(
+              'optimizeRanges',
+              rangeSettings.optimizeRanges.toString()
+            );
 
-            if (rangeSettings.rangeSplitThreshold){
-              formData.append('rangeSplitThreshold', rangeSettings.rangeSplitThreshold.toString());
+            if (rangeSettings.rangeSplitThreshold) {
+              formData.append(
+                'rangeSplitThreshold',
+                rangeSettings.rangeSplitThreshold.toString()
+              );
             }
             if (rangeSettings.maxRangeOverlap) {
-              formData.append('maxRangeOverlap', rangeSettings.maxRangeOverlap.toString());
+              formData.append(
+                'maxRangeOverlap',
+                rangeSettings.maxRangeOverlap.toString()
+              );
             }
           }
         }
@@ -144,7 +178,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
               i++;
             }
             id = id + i;
-            
+
             const geoFeatures = response.data as GeoFeatures;
             geoFeatures.id = id;
             geoFeatures.label = id;
@@ -152,7 +186,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             assignTypesAndLabelsVisitor(geoFeatures);
             createLayers(geoFeatures);
             enableLayers(geoFeatures.geometry);
-      
+
             this.geoQueryFeatures[id] = geoFeatures;
             resolve(id);
           })
@@ -160,7 +194,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
             console.log('Something went wrong? ' + reason);
             reject(reason);
           });
-      })
+      });
     },
     deleteGeoFeatures(id: string) {
       const geoFeatures = this.geoQueryFeatures[id];
@@ -183,7 +217,7 @@ export const geoFeaturesStore = defineStore('geoQueryFeatures', {
         delete this.geoQueryFeatures[id];
         this.geoQueryFeatures[newId] = geoFeatures;
       }
-    }
+    },
   },
 });
 
@@ -204,10 +238,11 @@ export const GEO_FUNCTION_ARRAY = 'GeoFunctionArray';
 export const FEATURE = 'Feature';
 export const FEATURE_COLLECTION = 'FeatureCollection';
 
-
-export function getTypeName(feature: TypedFeature|Feature): string | undefined {
+export function getTypeName(
+  feature: TypedFeature | Feature
+): string | undefined {
   let typeName = '' as string | undefined;
-  if('typeName' in feature) {
+  if ('typeName' in feature) {
     typeName = (feature as TypedFeature).typeName;
   } else if ('type' in feature) {
     typeName = (feature as Feature).type;
@@ -239,7 +274,7 @@ export function setLabel(feature: TypedFeature | Feature, label: string) {
   }
 }
 
-export function getLayer(feature: TypedFeature|Feature): L.Layer | undefined {
+export function getLayer(feature: TypedFeature | Feature): L.Layer | undefined {
   let layer = undefined;
   if ('layer' in feature && feature.layer != undefined) {
     layer = feature.layer;
@@ -257,7 +292,7 @@ function geoByFieldTypedFeature(geoByField: GeoByField): TypedFeature {
     delegate: true,
     label: 'Geo By Field',
     typeName: GEO_BY_FIELD,
-    feature: geoByField
+    feature: geoByField,
   } as DelegateTypedFeature;
 }
 
@@ -266,7 +301,7 @@ function geoFunctionsTypedFeature(functions: GeoFunction[]): TypedFeature {
     delegate: true,
     label: 'Geo Functions',
     typeName: GEO_FUNCTION_ARRAY,
-    feature: functions
+    feature: functions,
   } as DelegateTypedFeature;
 }
 
@@ -275,14 +310,17 @@ function geoByTierTypedFeature(geoByTier: GeoByTier): TypedFeature {
     delegate: true,
     label: 'Geo By Tier',
     typeName: GEO_BY_TIER,
-    feature: geoByTier
+    feature: geoByTier,
   } as DelegateTypedFeature;
 }
 
-function visitChildren(feature: TypedFeature|Feature, visit: (feature: TypedFeature|Feature) => void) {
+function visitChildren(
+  feature: TypedFeature | Feature,
+  visit: (feature: TypedFeature | Feature) => void
+) {
   const typeName = getTypeName(feature);
-  
-  switch(typeName) {
+
+  switch (typeName) {
     case GEO_QUERY_FEATURES: {
       const geoQueryFeatures = feature as GeoQueryFeatures;
       if (geoQueryFeatures.geoByField != undefined) {
@@ -295,7 +333,8 @@ function visitChildren(feature: TypedFeature|Feature, visit: (feature: TypedFeat
     }
 
     case GEO_BY_FIELD: {
-      const geoByField = (feature as DelegateTypedFeature).feature as GeoByField;
+      const geoByField = (feature as DelegateTypedFeature)
+        .feature as GeoByField;
       for (const field in geoByField) {
         visit(geoByField[field]);
       }
@@ -303,12 +342,13 @@ function visitChildren(feature: TypedFeature|Feature, visit: (feature: TypedFeat
     }
 
     case GEO_TERMS: {
-      const geoTerms = (feature as GeoTerms);
+      const geoTerms = feature as GeoTerms;
       if (geoTerms.geo != undefined) {
         if (geoTerms.geo != undefined && geoTerms.geo.geoJson != undefined) {
           const geoJson = geoTerms.geo.geoJson as GeoJsonObject;
           if (geoJson.type == FEATURE_COLLECTION) {
-            for (const geoJsonFeature of (geoJson as FeatureCollection).features) {
+            for (const geoJsonFeature of (geoJson as FeatureCollection)
+              .features) {
               visit(geoJsonFeature);
             }
           } else if (geoJson.type == FEATURE) {
@@ -332,7 +372,8 @@ function visitChildren(feature: TypedFeature|Feature, visit: (feature: TypedFeat
     }
 
     case GEO_FUNCTION_ARRAY: {
-      const functions = (feature as DelegateTypedFeature).feature as GeoFunction[];
+      const functions = (feature as DelegateTypedFeature)
+        .feature as GeoFunction[];
       for (const geoFunction of functions) {
         visit(geoFunction);
       }
@@ -384,35 +425,44 @@ function visitChildren(feature: TypedFeature|Feature, visit: (feature: TypedFeat
   }
 }
 
-export function getChildren(feature: TypedFeature|Feature): (TypedFeature|Feature)[] {
+export function getChildren(
+  feature: TypedFeature | Feature
+): (TypedFeature | Feature)[] {
   const children = [] as (TypedFeature | Feature)[];
 
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES: {
-      const geoQueryFeatures = (feature as GeoQueryFeatures);
-      if (geoQueryFeatures.geoByField != undefined && Object.keys(geoQueryFeatures.geoByField).length > 0) {
+      const geoQueryFeatures = feature as GeoQueryFeatures;
+      if (
+        geoQueryFeatures.geoByField != undefined &&
+        Object.keys(geoQueryFeatures.geoByField).length > 0
+      ) {
         children.push({
           delegate: true,
           label: 'Geo By Field',
           typeName: GEO_BY_FIELD,
-          feature: (feature as GeoQueryFeatures).geoByField
+          feature: (feature as GeoQueryFeatures).geoByField,
         } as DelegateTypedFeature);
       }
-      if (geoQueryFeatures.functions!= undefined && geoQueryFeatures.functions.length > 0) {
+      if (
+        geoQueryFeatures.functions != undefined &&
+        geoQueryFeatures.functions.length > 0
+      ) {
         children.push({
           delegate: true,
           label: 'Geo Functions',
           typeName: GEO_FUNCTION_ARRAY,
-          feature: (feature as GeoQueryFeatures).functions
+          feature: (feature as GeoQueryFeatures).functions,
         } as DelegateTypedFeature);
       }
       break;
     }
 
     case GEO_BY_FIELD: {
-      const geoByField = (feature as DelegateTypedFeature).feature as GeoByField;
+      const geoByField = (feature as DelegateTypedFeature)
+        .feature as GeoByField;
       for (const field in geoByField) {
         children.push(geoByField[field]);
       }
@@ -420,12 +470,13 @@ export function getChildren(feature: TypedFeature|Feature): (TypedFeature|Featur
     }
 
     case GEO_TERMS: {
-      const geoTerms = (feature as GeoTerms);
+      const geoTerms = feature as GeoTerms;
       if (geoTerms.geo != undefined) {
         if (geoTerms.geo != undefined && geoTerms.geo.geoJson != undefined) {
           const geoJson = geoTerms.geo.geoJson as GeoJsonObject;
           if (geoJson.type == FEATURE_COLLECTION) {
-            for (const geoJsonFeature of (geoJson as FeatureCollection).features) {
+            for (const geoJsonFeature of (geoJson as FeatureCollection)
+              .features) {
               children.push(geoJsonFeature);
             }
           } else if (geoJson.type == FEATURE) {
@@ -439,7 +490,7 @@ export function getChildren(feature: TypedFeature|Feature): (TypedFeature|Featur
           delegate: true,
           label: 'Geo By Tier',
           typeName: GEO_BY_TIER,
-          feature: geoTerms.geoByTier
+          feature: geoTerms.geoByTier,
         } as DelegateTypedFeature);
       }
       break;
@@ -454,7 +505,8 @@ export function getChildren(feature: TypedFeature|Feature): (TypedFeature|Featur
     }
 
     case GEO_FUNCTION_ARRAY: {
-      const functions = (feature as DelegateTypedFeature).feature as GeoFunction[];
+      const functions = (feature as DelegateTypedFeature)
+        .feature as GeoFunction[];
       for (const geoFunction of functions) {
         children.push(geoFunction);
       }
@@ -502,10 +554,10 @@ export function getChildren(feature: TypedFeature|Feature): (TypedFeature|Featur
   return children;
 }
 
-function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
+function assignTypesAndLabelsVisitor(feature: TypedFeature | Feature) {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES: {
       // geoByField and geoFunctions handles by visitChildren
       visitChildren(feature, assignTypesAndLabelsVisitor);
@@ -513,7 +565,8 @@ function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
     }
 
     case GEO_BY_FIELD: {
-      const geoByField = (feature as DelegateTypedFeature).feature as GeoByField;
+      const geoByField = (feature as DelegateTypedFeature)
+        .feature as GeoByField;
       for (const field in geoByField) {
         geoByField[field].label = field;
         geoByField[field].typeName = GEO_TERMS;
@@ -527,7 +580,8 @@ function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
       if (geoTerms.geo != undefined && geoTerms.geo.geoJson != undefined) {
         const geoJson = geoTerms.geo.geoJson as GeoJsonObject;
         if (geoJson.type == FEATURE_COLLECTION) {
-          for (const geoJsonFeature of (geoJson as FeatureCollection).features) {
+          for (const geoJsonFeature of (geoJson as FeatureCollection)
+            .features) {
             if (geoJsonFeature.properties != undefined) {
               geoJsonFeature.properties.label = geoJsonFeature.id;
             }
@@ -555,7 +609,8 @@ function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
     }
 
     case GEO_FUNCTION_ARRAY: {
-      for (const geoFunction of ((feature as DelegateTypedFeature).feature as GeoFunction[])) {
+      for (const geoFunction of (feature as DelegateTypedFeature)
+        .feature as GeoFunction[]) {
         geoFunction.label = geoFunction.function;
         geoFunction.typeName = GEO_FUNCTION;
       }
@@ -602,11 +657,11 @@ function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
       const geoFeatures = feature as GeoFeatures;
       if (geoFeatures.geometry != undefined) {
         geoFeatures.geometry.label = 'Geometry';
-        geoFeatures.geometry.typeName= GEO;
+        geoFeatures.geometry.typeName = GEO;
       }
       if (geoFeatures.queryRanges != undefined) {
         geoFeatures.queryRanges.label = 'Query Ranges';
-        geoFeatures.queryRanges.typeName= GEO_TERMS;
+        geoFeatures.queryRanges.typeName = GEO_TERMS;
       }
       visitChildren(feature, assignTypesAndLabelsVisitor);
       break;
@@ -623,23 +678,27 @@ function assignTypesAndLabelsVisitor(feature: TypedFeature|Feature) {
 }
 
 let visibleBounds: L.LatLngBounds | undefined;
-export function getVisibleBounds(feature: TypedFeature|Feature): L.LatLngBounds | undefined {
+export function getVisibleBounds(
+  feature: TypedFeature | Feature
+): L.LatLngBounds | undefined {
   visibleBounds = undefined;
   return getVisibleBoundsInternal(feature);
 }
 
-function getVisibleBoundsInternal(feature: TypedFeature|Feature): L.LatLngBounds | undefined {
+function getVisibleBoundsInternal(
+  feature: TypedFeature | Feature
+): L.LatLngBounds | undefined {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO: 
-    case GEO_FUNCTION: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO:
+    case GEO_FUNCTION:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
       visitChildren(feature, getVisibleBoundsInternal);
       break;
@@ -654,7 +713,7 @@ function getVisibleBoundsInternal(feature: TypedFeature|Feature): L.LatLngBounds
       }
 
       if (layer != undefined && leafletMap.hasLayer(layer)) {
-        const bounds = layer.getBounds()
+        const bounds = layer.getBounds();
         if (visibleBounds == undefined) {
           visibleBounds = bounds;
         } else {
@@ -671,26 +730,29 @@ function getVisibleBoundsInternal(feature: TypedFeature|Feature): L.LatLngBounds
 }
 
 let addToMapGlobal = true;
-export function enableLayers(feature: TypedFeature|Feature, addToMap?: boolean) {
-  addToMapGlobal = (addToMap == undefined) ? true : addToMap;
+export function enableLayers(
+  feature: TypedFeature | Feature,
+  addToMap?: boolean
+) {
+  addToMapGlobal = addToMap == undefined ? true : addToMap;
 
   enableLayersInternal(feature);
 }
 
-export function createLayers(feature: TypedFeature|Feature) {
+export function createLayers(feature: TypedFeature | Feature) {
   enableLayers(feature, false);
 }
 
-function enableLayersInternal(feature: TypedFeature|Feature) {
+function enableLayersInternal(feature: TypedFeature | Feature) {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
     case GEO:
     case GEO_FUNCTION:
@@ -702,12 +764,14 @@ function enableLayersInternal(feature: TypedFeature|Feature) {
       const geoJsonFeature = feature as Feature;
       if (geoJsonFeature.properties != undefined) {
         if (geoJsonFeature.properties.layer == undefined) {
-          geoJsonFeature.properties.layer = markRaw(L.geoJSON(geoJsonFeature, {onEachFeature: onEachFeature}));
+          geoJsonFeature.properties.layer = markRaw(
+            L.geoJSON(geoJsonFeature, { onEachFeature: onEachFeature })
+          );
           geoJsonFeature.properties.color = '#1976d2';
           geoJsonFeature.properties.layer.setStyle({
             color: geoJsonFeature.properties.color,
             fillOpacity: 0.4,
-            weight: 2
+            weight: 2,
           });
         }
 
@@ -727,16 +791,16 @@ function enableLayersInternal(feature: TypedFeature|Feature) {
   }
 }
 
-export function disableLayers(feature: TypedFeature|Feature) {
+export function disableLayers(feature: TypedFeature | Feature) {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
     case GEO:
     case GEO_FUNCTION:
@@ -766,21 +830,21 @@ export function disableLayers(feature: TypedFeature|Feature) {
 }
 
 let isVisibleGlobal = false;
-export function layersVisible(feature: TypedFeature|Feature): boolean {
+export function layersVisible(feature: TypedFeature | Feature): boolean {
   isVisibleGlobal = false;
   return layersVisibleInternal(feature);
 }
 
-function layersVisibleInternal(feature: TypedFeature|Feature): boolean {
+function layersVisibleInternal(feature: TypedFeature | Feature): boolean {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
     case GEO:
     case GEO_FUNCTION:
@@ -811,27 +875,29 @@ function layersVisibleInternal(feature: TypedFeature|Feature): boolean {
 }
 
 let colors = [] as string[];
-export function layersColor(feature: TypedFeature|Feature): string | undefined {
+export function layersColor(
+  feature: TypedFeature | Feature
+): string | undefined {
   colors = [];
   layersColorInternal(feature);
 
   if (colors.length == 1) {
     return colors[0];
   }
-  
+
   return undefined;
 }
 
-function layersColorInternal(feature: TypedFeature|Feature) {
+function layersColorInternal(feature: TypedFeature | Feature) {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
     case GEO:
     case GEO_FUNCTION:
@@ -861,22 +927,22 @@ function layersColorInternal(feature: TypedFeature|Feature) {
   }
 }
 
-let selectedColor = ''
-export function setLayerColor(feature: TypedFeature|Feature, color: string) {
+let selectedColor = '';
+export function setLayerColor(feature: TypedFeature | Feature, color: string) {
   selectedColor = color;
   setLayerColorInternal(feature);
 }
 
-function setLayerColorInternal(feature: TypedFeature|Feature) {
+function setLayerColorInternal(feature: TypedFeature | Feature) {
   const typeName = getTypeName(feature);
 
-  switch(typeName) {
+  switch (typeName) {
     case GEO_QUERY_FEATURES:
     case GEO_BY_FIELD:
-    case GEO_TERMS: 
-    case GEO_BY_TIER: 
-    case GEO_FUNCTION_ARRAY: 
-    case GEO_FEATURES: 
+    case GEO_TERMS:
+    case GEO_BY_TIER:
+    case GEO_FUNCTION_ARRAY:
+    case GEO_FEATURES:
     case FEATURE_COLLECTION:
     case GEO:
     case GEO_FUNCTION:
@@ -895,8 +961,8 @@ function setLayerColorInternal(feature: TypedFeature|Feature) {
 
       if (layer != undefined) {
         layer.setStyle({
-          color: selectedColor
-        })
+          color: selectedColor,
+        });
       }
       break;
 

@@ -7,18 +7,18 @@
         </div>
       </q-form>
       <q-card-actions align="right" class="text-primary">
-        <q-btn
-          flat
-          label="Reset"
-          @click="
-            queryId = '';
-          "
-        />
+        <q-btn flat label="Reset" @click="queryId = ''" />
         <q-btn flat label="Load" @click="submitQuery" />
       </q-card-actions>
     </q-card-section>
 
-    <CardLoading ref="cardLoading" @doneClick="cardOpacity=1.0; queryId = (success) ? '' : queryId;" />
+    <CardLoading
+      ref="cardLoading"
+      @doneClick="
+        cardOpacity = 1.0;
+        queryId = success ? '' : queryId;
+      "
+    />
   </q-card>
 </template>
 
@@ -40,7 +40,8 @@ function submitQuery() {
   cardLoading.value?.loading('Loading geometry.  Please wait...');
   success.value = false;
 
-  geoQueryFeatures.loadGeoFeaturesForQueryId(queryId.value)
+  geoQueryFeatures
+    .loadGeoFeaturesForQueryId(queryId.value)
     .then(() => {
       success.value = true;
       cardLoading.value?.success('Geometry loaded successfully!');
@@ -51,5 +52,4 @@ function submitQuery() {
 }
 </script>
 
-<style>
-</style>
+<style></style>

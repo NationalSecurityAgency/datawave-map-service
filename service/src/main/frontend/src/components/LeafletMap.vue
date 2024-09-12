@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { simpleMapStore } from 'stores/simple-map-store'
-import { basemapsStore } from 'stores/basemaps-store'
-import { addFeatureInfoPanel } from 'stores/feature-info-store'
+import { simpleMapStore } from 'stores/simple-map-store';
+import { basemapsStore } from 'stores/basemaps-store';
+import { addFeatureInfoPanel } from 'stores/feature-info-store';
 import { api } from 'boot/axios';
 
 // get Leaflet
@@ -32,14 +32,21 @@ const initMap = () => {
   api
     .get('/map/v1/crs')
     .then((response) => {
-
       const crs = response.data;
 
-      basemaps.initialize()
+      basemaps
+        .initialize()
         .then(() => {
           const bounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
 
-          leafletMap.createMap(props.mapId, props.enableAttribution, props.enableZoomControl, bounds, 2, crs);
+          leafletMap.createMap(
+            props.mapId,
+            props.enableAttribution,
+            props.enableZoomControl,
+            bounds,
+            2,
+            crs
+          );
 
           leafletMap.setView([0, 0], 3);
 
@@ -59,7 +66,6 @@ const initMap = () => {
         .catch((reason) => {
           console.log('Unable to initialize basemaps. ', reason);
         });
-
     })
     .catch((reason) => {
       console.log('Something went wrong? ' + reason);
@@ -74,22 +80,22 @@ onMounted(() => {
 <style>
 /* style for the info box on the query geometry map */
 .info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    max-width: 33vw;
-    word-wrap: break-word;
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  max-width: 33vw;
+  word-wrap: break-word;
 }
 
 .info h4 {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 16px;
-    text-align: center;
-    margin: 0 0 5px;
-    color: #777;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: center;
+  margin: 0 0 5px;
+  color: #777;
 }
 </style>

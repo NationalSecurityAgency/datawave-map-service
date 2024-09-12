@@ -9,7 +9,11 @@
             @update:model-value="loadFile"
             style="display: none"
           />
-          <q-input v-model="manualQueryForm.query" label="Query (LUCENE/JEXL)" spellcheck="false" >
+          <q-input
+            v-model="manualQueryForm.query"
+            label="Query (LUCENE/JEXL)"
+            spellcheck="false"
+          >
             <template v-slot:append>
               <q-btn
                 dense
@@ -57,7 +61,7 @@
                   field: '',
                   type: {
                     label: '',
-                    value: ''
+                    value: '',
                   },
                 } as FieldType)
               "
@@ -78,7 +82,16 @@
       </q-card-actions>
     </q-card-section>
 
-    <CardLoading ref="cardLoading" @doneClick="cardOpacity=1.0; if (success) { manualQueryForm.$reset(); fieldNum = 0; };" />
+    <CardLoading
+      ref="cardLoading"
+      @doneClick="
+        cardOpacity = 1.0;
+        if (success) {
+          manualQueryForm.$reset();
+          fieldNum = 0;
+        }
+      "
+    />
   </q-card>
   <q-dialog v-model="editDialog">
     <q-card style="min-width: 66%">
@@ -198,11 +211,12 @@ function submitQuery() {
   cardLoading.value?.loading('Loading query.  Please wait...');
   success.value = false;
 
-  geoQueryFeatures.loadGeoFeaturesForQuery(
-    manualQueryForm.query,
-    getFieldTypeMap(),
-    manualQueryForm.expand
-  )
+  geoQueryFeatures
+    .loadGeoFeaturesForQuery(
+      manualQueryForm.query,
+      getFieldTypeMap(),
+      manualQueryForm.expand
+    )
     .then(() => {
       cardLoading.value?.success('Query loaded successfully!');
       success.value = true;

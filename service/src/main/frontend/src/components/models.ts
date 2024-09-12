@@ -13,7 +13,7 @@ export interface TypedFeature {
   id?: string;
 }
 
-export interface DelegateTypedFeature extends TypedFeature{
+export interface DelegateTypedFeature extends TypedFeature {
   delegate: boolean;
   feature: TypedFeature;
 }
@@ -102,8 +102,8 @@ export interface FieldType {
   id: number;
   field: string;
   type: {
-    label: string,
-    value: string
+    label: string;
+    value: string;
   };
 }
 

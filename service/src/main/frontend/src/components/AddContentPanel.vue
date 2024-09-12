@@ -65,4 +65,3 @@ defineProps<AddContentPanelProps>();
 
 const appState = appStateStore();
 </script>
-

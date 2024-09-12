@@ -9,7 +9,11 @@
             @update:model-value="loadFile"
             style="display: none"
           />
-          <q-input v-model="geometry" :label='"Geometry (" + supportedGeometries.join("/") + ")"' spellcheck="false" >
+          <q-input
+            v-model="geometry"
+            :label="'Geometry (' + supportedGeometries.join('/') + ')'"
+            spellcheck="false"
+          >
             <template v-slot:append>
               <q-btn
                 dense
@@ -26,39 +30,94 @@
         </div>
       </q-form>
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Reset" @click="geometry = ''; clearDisplay()" />
+        <q-btn
+          flat
+          label="Reset"
+          @click="
+            geometry = '';
+            clearDisplay();
+          "
+        />
         <q-btn flat label="Load" @click="submitGeometry" />
       </q-card-actions>
       <q-separator inset />
       <div class="q-py-md">
         <div class="row q-pt-md">
-          <q-btn icon="content_copy" flat round size="8px" @click="copyWkt()" /><strong>Well-Known Text (WKT):</strong>
+          <q-btn
+            icon="content_copy"
+            flat
+            round
+            size="8px"
+            @click="copyWkt()"
+          /><strong>Well-Known Text (WKT):</strong>
         </div>
-        <q-scroll-area :content-style="contentStyle" :content-active-style="contentActiveStyle" style="height: 100px; max-width: 466px;">
-          <div class=q-pa-xs style="max-width: 466px;" >{{ wkt }}</div>
+        <q-scroll-area
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 100px; max-width: 466px"
+        >
+          <div class="q-pa-xs" style="max-width: 466px">{{ wkt }}</div>
         </q-scroll-area>
         <div class="row q-pt-md">
-          <q-btn icon="content_copy" flat round size="8px" @click="copyGeoPointIndex()" /><strong>Geo Point Index:</strong>
+          <q-btn
+            icon="content_copy"
+            flat
+            round
+            size="8px"
+            @click="copyGeoPointIndex()"
+          /><strong>Geo Point Index:</strong>
         </div>
-        <q-scroll-area :content-style="contentStyle" :content-active-style="contentActiveStyle" style="height: 25px; max-width: 466px;">
-          <div class=q-pa-xs>{{ geoPointIndex }}</div>
+        <q-scroll-area
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 25px; max-width: 466px"
+        >
+          <div class="q-pa-xs">{{ geoPointIndex }}</div>
         </q-scroll-area>
         <div class="row q-pt-md">
-          <q-btn icon="content_copy" flat round size="8px" @click="copyGeoWavePointIndex()" /><strong>GeoWave Point Index:</strong>
+          <q-btn
+            icon="content_copy"
+            flat
+            round
+            size="8px"
+            @click="copyGeoWavePointIndex()"
+          /><strong>GeoWave Point Index:</strong>
         </div>
-        <q-scroll-area :content-style="contentStyle" :content-active-style="contentActiveStyle" style="height: 25px; max-width: 466px;">
-          <div class=q-pa-xs>{{ geoWavePointIndex }}</div>
+        <q-scroll-area
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 25px; max-width: 466px"
+        >
+          <div class="q-pa-xs">{{ geoWavePointIndex }}</div>
         </q-scroll-area>
         <div class="row q-pt-md">
-          <q-btn icon="content_copy" flat round size="8px" @click="copyGeoWaveGeometryIndices()" /><strong>GeoWave Geometry Indices:</strong>
+          <q-btn
+            icon="content_copy"
+            flat
+            round
+            size="8px"
+            @click="copyGeoWaveGeometryIndices()"
+          /><strong>GeoWave Geometry Indices:</strong>
         </div>
-        <q-scroll-area :content-style="contentStyle" :content-active-style="contentActiveStyle" style="height: 100px; max-width: 466px;">
-          <div class=q-pa-xs>{{ geoWaveGeometryIndices }}</div>
+        <q-scroll-area
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 100px; max-width: 466px"
+        >
+          <div class="q-pa-xs">{{ geoWaveGeometryIndices }}</div>
         </q-scroll-area>
       </div>
     </q-card-section>
 
-    <CardLoading ref="cardLoading" @doneClick="cardOpacity=1.0; if (success) { geometry = ''; };" />
+    <CardLoading
+      ref="cardLoading"
+      @doneClick="
+        cardOpacity = 1.0;
+        if (success) {
+          geometry = '';
+        }
+      "
+    />
   </q-card>
   <q-dialog v-model="editDialog">
     <q-card style="min-width: 66%">
@@ -77,7 +136,14 @@
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn flat label="Reset" @click="editDialogText = ''; clearDisplay()" />
+        <q-btn
+          flat
+          label="Reset"
+          @click="
+            editDialogText = '';
+            clearDisplay();
+          "
+        />
         <q-btn flat label="Cancel" v-close-popup @click="editDialogText = ''" />
         <q-btn
           flat
@@ -100,7 +166,7 @@ import { api } from 'boot/axios';
 import { QFile } from 'quasar';
 import { ref } from 'vue';
 import CardLoading, { CardLoadingMethods } from 'components/CardLoading.vue';
-import { GeoIndices } from 'components/models'
+import { GeoIndices } from 'components/models';
 
 export interface GeoIndexFormProps {
   supportedGeometries: string[];
@@ -126,16 +192,16 @@ const geoWaveGeometryIndices = ref<string>('');
 
 const contentStyle = {
   backgroundColor: 'rgba(0,0,0,0.02)',
-  color: '#555'
+  color: '#555',
 };
 
 const contentActiveStyle = {
   backgroundColor: '#eee',
-  color: 'black'
+  color: 'black',
 };
 
 function clearDisplay() {
-  wkt.value = ''
+  wkt.value = '';
   geoPointIndex.value = '';
   geoWavePointIndex.value = '';
   geoWaveGeometryIndices.value = '';
@@ -195,7 +261,7 @@ function submitGeometry() {
 
       console.log(geoIndices);
 
-      if (geoIndices.wkt != undefined){
+      if (geoIndices.wkt != undefined) {
         wkt.value = geoIndices.wkt;
       }
       if (geoIndices.geoPointIndex != undefined) {
@@ -205,7 +271,8 @@ function submitGeometry() {
         geoWavePointIndex.value = geoIndices.geoWavePointIndex;
       }
       if (geoIndices.geoWaveGeometryIndex != undefined) {
-        geoWaveGeometryIndices.value = geoIndices.geoWaveGeometryIndex.join(', ');
+        geoWaveGeometryIndices.value =
+          geoIndices.geoWaveGeometryIndex.join(', ');
       }
     })
     .catch(() => {
@@ -213,26 +280,25 @@ function submitGeometry() {
     });
 }
 
-
 const $q = useQuasar();
 async function copyWkt() {
-    await navigator.clipboard.writeText(wkt.value);
-    $q.notify('Text Copied to Clipboard')
+  await navigator.clipboard.writeText(wkt.value);
+  $q.notify('Text Copied to Clipboard');
 }
 
 async function copyGeoPointIndex() {
-    await navigator.clipboard.writeText(geoPointIndex.value);
-    $q.notify('Text Copied to Clipboard')
+  await navigator.clipboard.writeText(geoPointIndex.value);
+  $q.notify('Text Copied to Clipboard');
 }
 
 async function copyGeoWavePointIndex() {
-    await navigator.clipboard.writeText(geoWavePointIndex.value);
-    $q.notify('Text Copied to Clipboard')
+  await navigator.clipboard.writeText(geoWavePointIndex.value);
+  $q.notify('Text Copied to Clipboard');
 }
 
 async function copyGeoWaveGeometryIndices() {
-    await navigator.clipboard.writeText(geoWaveGeometryIndices.value);
-    $q.notify('Text Copied to Clipboard')
+  await navigator.clipboard.writeText(geoWaveGeometryIndices.value);
+  $q.notify('Text Copied to Clipboard');
 }
 </script>
 

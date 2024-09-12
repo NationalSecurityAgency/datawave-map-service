@@ -36,6 +36,4 @@ export interface GeoToolboxPanelProps {
   supportedGeometries: string[];
 }
 defineProps<GeoToolboxPanelProps>();
-
 </script>
-
