@@ -1,12 +1,14 @@
 import { GeoJsonProperties, Feature } from 'geojson';
-import L, { Layer, Control } from 'leaflet';
 import { SimpleMapStore } from './simple-map-store';
+
+// get Leaflet
+const L = window.L;
 
 let leafletMap: SimpleMapStore;
 
 let selected: Feature | undefined = undefined;
 let layerClicked = false;
-const info = new Control() as Control & InfoPanel;
+const info = new L.Control() as L.Control & InfoPanel;
 
 interface InfoPanel {
     _div: HTMLElementTagNameMap['div'];
@@ -47,7 +49,7 @@ export function addFeatureInfoPanel(leafletMapArg: SimpleMapStore) {
     leafletMap.addControl(info);
 }
 
-export function onEachFeature(feature: Feature, layer: Layer) {
+export function onEachFeature(feature: Feature, layer: L.Layer) {
 
     const geoJsonLayer = layer as L.GeoJSON;
 

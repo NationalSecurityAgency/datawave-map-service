@@ -4,8 +4,10 @@ import { api } from 'boot/axios';
 import { GeoJsonObject, FeatureCollection, Feature, GeoJsonProperties } from 'geojson';
 import { simpleMapStore } from './simple-map-store';
 import { markRaw } from 'vue';
-import L from 'leaflet';
 import { onEachFeature } from './feature-info-store';
+
+// get Leaflet
+const L = window.L;
 
 export const geoFeaturesStore = defineStore('geoQueryFeatures', {
   state: () => ({

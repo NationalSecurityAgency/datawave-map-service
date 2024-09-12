@@ -30,6 +30,7 @@
         <version.microservice.query-metric-api>4.0.8-SNAPSHOT</version.microservice.query-metric-api>
         <version.microservice.starter>4.0.3-SNAPSHOT</version.microservice.starter>
         <version.microservice.starter-metadata>3.0.3-SNAPSHOT</version.microservice.starter-metadata>
+        <version.webjars.leaflet>1.8.0</version.webjars.leaflet>
         <version.zookeeper>3.8.3</version.zookeeper>
     </properties>
     <dependencyManagement>
@@ -94,6 +95,11 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>leaflet</artifactId>
+                <version>${version.webjars.leaflet}</version>
+            </dependency>
+            <dependency>
                 <groupId>gov.nsa.datawave.microservice</groupId>
                 <artifactId>spring-boot-starter-datawave</artifactId>
                 <version>${version.microservice.starter}</version>
@@ -137,6 +143,10 @@
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>leaflet</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

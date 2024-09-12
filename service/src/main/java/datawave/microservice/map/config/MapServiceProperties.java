@@ -18,6 +18,7 @@ public class MapServiceProperties {
     private Banner header = new Banner();
     private Banner footer = new Banner();
     private List<String> supportedGeometries = Arrays.asList("WKT", "GeoJSON");
+    private CRS crs = CRS.EPSG3857;
     
     public String getMetricsUri() {
         return metricsUri;
@@ -65,6 +66,14 @@ public class MapServiceProperties {
     
     public void setSupportedGeometries(List<String> supportedGeometries) {
         this.supportedGeometries = supportedGeometries;
+    }
+    
+    public CRS getCrs() {
+        return crs;
+    }
+    
+    public void setCrs(CRS crs) {
+        this.crs = crs;
     }
     
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -156,5 +165,9 @@ public class MapServiceProperties {
         public void setStyle(String style) {
             this.style = style;
         }
+    }
+    
+    public enum CRS {
+        Earth, EPSG3395, EPSG3857, EPSG4326, Simple
     }
 }

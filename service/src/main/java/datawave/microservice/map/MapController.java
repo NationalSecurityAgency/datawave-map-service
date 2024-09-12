@@ -2,6 +2,7 @@ package datawave.microservice.map;
 
 import java.util.List;
 
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,12 @@ import datawave.webservice.query.exception.QueryException;
 public class MapController {
     private MapOperationsService mapOperationsService;
     private MapServiceProperties mapServiceProperties;
+    private BuildProperties buildProperties;
     
-    public MapController(MapOperationsService mapOperationsService, MapServiceProperties mapServiceProperties) {
+    public MapController(MapOperationsService mapOperationsService, MapServiceProperties mapServiceProperties, BuildProperties buildProperties) {
         this.mapOperationsService = mapOperationsService;
         this.mapServiceProperties = mapServiceProperties;
+        this.buildProperties = buildProperties;
     }
     
     @RequestMapping(path = "/getGeoFeaturesForQuery", method = {RequestMethod.POST})
@@ -77,5 +80,15 @@ public class MapController {
     @RequestMapping(path = "/footer", method = {RequestMethod.GET})
     public MapServiceProperties.Banner footer() {
         return mapServiceProperties.getFooter();
+    }
+    
+    @RequestMapping(path = "/crs", method = {RequestMethod.GET})
+    public String crs() {
+        return mapServiceProperties.getCrs().name();
+    }
+    
+    @RequestMapping(path = "/version", method = {RequestMethod.GET})
+    public String version() {
+        return buildProperties.getVersion();
     }
 }

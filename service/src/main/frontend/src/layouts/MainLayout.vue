@@ -14,7 +14,7 @@
 
         <q-toolbar-title>DataWave Map Service</q-toolbar-title>
 
-        <div>v{{ app.version }}</div>
+        <div>v{{ version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -63,7 +63,6 @@ import MenuItem, {
   MenuItemProps,
 } from 'components/MenuItem.vue';
 import { appStateStore } from 'stores/state-store';
-import app from '../../package.json';
 import { onMounted } from 'vue';
 import { api } from 'boot/axios';
 import { Banner } from 'components/models'
@@ -139,6 +138,7 @@ function toggleMini() {
 
 const header = ref<Banner>();
 const footer = ref<Banner>();
+const version = ref<string>();
 
 onMounted(() => {
   api
@@ -154,6 +154,15 @@ onMounted(() => {
     .get('/map/v1/footer', undefined)
     .then((response) => {
       footer.value = response.data as Banner;
+    })
+    .catch((reason) => {
+      console.log('Something went wrong? ' + reason);
+    });
+
+  api
+    .get('/map/v1/version', undefined)
+    .then((response) => {
+      version.value = response.data;
     })
     .catch((reason) => {
       console.log('Something went wrong? ' + reason);

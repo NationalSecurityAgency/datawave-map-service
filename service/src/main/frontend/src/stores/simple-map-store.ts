@@ -1,5 +1,7 @@
-import L from 'leaflet';
 import { Basemap } from './basemaps-store';
+
+// get Leaflet
+const L = window.L;
 
 export class SimpleMapStore {
   map: L.Map | null = null;
@@ -11,9 +13,32 @@ export class SimpleMapStore {
     enableAttribution: boolean,
     enableZoomControl: boolean,
     bounds: L.LatLngBounds,
-    minZoom: number
+    minZoom: number,
+    crs: string
   ) {
+
+    let CRS;
+    switch(crs) {
+      case 'Earth':
+        CRS = L.CRS.Earth;
+        break;
+      case 'EPSG3395':
+        CRS = L.CRS.EPSG3395;
+        break;
+      case 'EPSG4326':
+        CRS = L.CRS.EPSG4326;
+        break;
+      case 'Simple':
+        CRS = L.CRS.Simple;
+        break;
+      case 'EPSG3857':
+      default:
+        CRS = L.CRS.EPSG3857;
+        break;
+    }
+
     this.map = L.map(mapId, {
+      crs: CRS,
       attributionControl: enableAttribution,
       zoomControl: enableZoomControl,
       maxBounds: bounds,

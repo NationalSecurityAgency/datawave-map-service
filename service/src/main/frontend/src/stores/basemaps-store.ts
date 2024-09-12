@@ -1,6 +1,8 @@
 import { api } from 'boot/axios';
-import L from 'leaflet';
 import { defineStore } from 'pinia';
+
+// get Leaflet
+const L = window.L;
 
 export const basemapsStore = defineStore('basemaps', {
   state: () => ({

@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import 'leaflet/dist/leaflet.css';
 import { simpleMapStore } from 'stores/simple-map-store'
-import L from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { basemapsStore } from 'stores/basemaps-store'
 import { addFeatureInfoPanel } from 'stores/feature-info-store'
+import { api } from 'boot/axios';
+
+// get Leaflet
+const L = window.L;
 
 interface Props {
   mapId?: string;
@@ -25,39 +25,44 @@ const props = withDefaults(defineProps<Props>(), {
   enableAttribution: false,
 });
 
-// this is needed to make markers work after the distributable is built
-L.Marker.prototype.setIcon(L.icon({
-  iconUrl:markerIcon,
-  shadowUrl:markerShadow
-}));
-
 const leafletMap = simpleMapStore;
 const basemaps = basemapsStore();
 
 const initMap = () => {
-  basemaps.initialize()
-    .then(() => {
-      const bounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
+  api
+    .get('/map/v1/crs')
+    .then((response) => {
 
-      leafletMap.createMap(props.mapId, props.enableAttribution, props.enableZoomControl, bounds, 2);
+      const crs = response.data;
 
-      leafletMap.setView([0, 0], 3);
+      basemaps.initialize()
+        .then(() => {
+          const bounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
 
-      // add the basemap selector panel to the map
-      leafletMap.enableLayerControl(props.enableLayerControl);
+          leafletMap.createMap(props.mapId, props.enableAttribution, props.enableZoomControl, bounds, 2, crs);
 
-      // populate the base layers
-      leafletMap.setBasemap(basemaps.getBasemap);
+          leafletMap.setView([0, 0], 3);
 
-      // add the feature info panel
-      addFeatureInfoPanel(leafletMap);
+          // add the basemap selector panel to the map
+          leafletMap.enableLayerControl(props.enableLayerControl);
 
-      window.onresize = () => {
-        leafletMap.invalidateSize(true);
-      };
+          // populate the base layers
+          leafletMap.setBasemap(basemaps.getBasemap);
+
+          // add the feature info panel
+          addFeatureInfoPanel(leafletMap);
+
+          window.onresize = () => {
+            leafletMap.invalidateSize(true);
+          };
+        })
+        .catch((reason) => {
+          console.log('Unable to initialize basemaps. ', reason);
+        });
+
     })
     .catch((reason) => {
-      console.log('Unable to initialize basemaps. ', reason);
+      console.log('Something went wrong? ' + reason);
     });
 };
 
