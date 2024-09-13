@@ -18,7 +18,7 @@
       v-if="appState.isConfigPanelEnabled"
       style="position: absolute; height: 100%; top: 0; left: 0; z-index: 1"
     >
-      <ConfigPanel :supportedGeometries="supportedGeometries" />
+      <ConfigPanel :supportedGeometries="supportedGeometries" :previewTileCoords="previewTileCoords" />
     </div>
   </q-page>
 </template>
@@ -33,7 +33,7 @@ import {
   geoFeaturesStore,
   getVisibleBounds,
 } from 'stores/geo-features-store';
-import { GeoQueryFeatures } from 'components/models';
+import { GeoQueryFeatures, Coordinate } from 'components/models';
 import { useRoute } from 'vue-router';
 import { simpleMapStore } from 'stores/simple-map-store';
 import { api } from 'boot/axios';
@@ -41,6 +41,7 @@ import { api } from 'boot/axios';
 const appState = appStateStore();
 const leafletMap = simpleMapStore;
 const supportedGeometries = ref<string[]>([]);
+const previewTileCoords = ref<Coordinate>();
 
 onMounted(() => {
   const route = useRoute();
@@ -74,6 +75,15 @@ onMounted(() => {
     .get('/map/v1/supportedGeometries', undefined)
     .then((response) => {
       supportedGeometries.value = response.data as string[];
+    })
+    .catch((reason) => {
+      console.log('Something went wrong? ' + reason);
+    });
+
+  api
+    .get('/map/v1/previewTileCoords', undefined)
+    .then((response) => {
+      previewTileCoords.value = response.data as Coordinate;
     })
     .catch((reason) => {
       console.log('Something went wrong? ' + reason);

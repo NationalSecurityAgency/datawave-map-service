@@ -91,4 +91,9 @@ public class MapController {
     public String version() {
         return buildProperties.getVersion();
     }
+    
+    @RequestMapping(path = "/previewTileCoords", method = {RequestMethod.GET})
+    public MapServiceProperties.Coordinate previewTileCoords() {
+        return mapServiceProperties.getPreviewTileCoords();
+    }
 }

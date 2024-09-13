@@ -25,7 +25,6 @@ import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.geojson.geom.GeometryJSON;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -40,7 +39,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import datawave.core.geo.utils.CommonGeoUtils;
 import datawave.core.geo.utils.GeoQueryConfig;
-import datawave.core.geo.utils.GeoUtils;
 import datawave.core.query.jexl.JexlASTHelper;
 import datawave.core.query.language.parser.jexl.LuceneToJexlQueryParser;
 import datawave.data.normalizer.GeoNormalizer;
@@ -274,7 +272,6 @@ public class MapOperationsService {
         // if that fails, parse as feature json
         if (wkt == null) {
             try {
-                GeometryFactory geomFact = new GeometryFactory();
                 List<Geometry> geometries = new ArrayList<>();
                 FeatureJSON featureJSON = new FeatureJSON();
                 SimpleFeatureType simpleFeatureType = featureJSON.readFeatureCollectionSchema(geoFeatureJSON, false);
@@ -296,7 +293,8 @@ public class MapOperationsService {
                         geometries.add((Geometry) feat.getDefaultGeometryProperty().getValue());
                     }
                 }
-                wkt = (geometries.size() > 1) ? geomFact.createGeometryCollection(geometries.toArray(new Geometry[0])).toText() : geometries.get(0).toText();
+                wkt = (geometries.size() > 1) ? CommonGeoUtils.geometryFactory.createGeometryCollection(geometries.toArray(new Geometry[0])).toText()
+                                : geometries.get(0).toText();
             } catch (Exception e) {
                 log.info("Unable to parse geometry as FeatureJSON");
             }

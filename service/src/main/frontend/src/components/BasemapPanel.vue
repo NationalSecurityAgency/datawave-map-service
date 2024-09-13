@@ -29,7 +29,7 @@
         <BasemapItem
           v-for="basemap in basemaps.getBasemaps"
           :key="basemap.title"
-          v-bind="{ basemap: basemap, selection: selectionRef() }"
+          v-bind="{ basemap: basemap, selection: selectionRef(), previewTileCoords: previewTileCoords }"
         />
       </q-list>
     </q-scroll-area>
@@ -41,6 +41,7 @@ import { ref, Ref } from 'vue';
 import { appStateStore } from 'stores/state-store';
 import { basemapsStore } from 'stores/basemaps-store';
 import BasemapItem from 'components/BasemapItem.vue';
+import { Coordinate } from 'components/models';
 
 const appState = appStateStore();
 const basemaps = basemapsStore();
@@ -50,4 +51,9 @@ const selection = ref(basemaps.getBasemap.title);
 function selectionRef(): Ref<string> {
   return selection;
 }
+
+export interface BasemapPanelProps {
+  previewTileCoords: Coordinate;
+}
+defineProps<BasemapPanelProps>();
 </script>

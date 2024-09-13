@@ -29,10 +29,12 @@ import { ref, Ref } from 'vue';
 import { basemapsStore, Basemap } from 'stores/basemaps-store';
 import { simpleMapStore } from 'stores/simple-map-store';
 import { QRadio } from 'quasar';
+import { Coordinate } from 'components/models';
 
 interface BasemapItem {
   basemap: Basemap;
   selection: Ref<string>;
+  previewTileCoords: Coordinate
 }
 
 const radio = ref<QRadio>();
@@ -56,9 +58,9 @@ const thumbnailUrl = createThumbnailUrl();
 
 function createThumbnailUrl() {
   let url = basemap.urlTemplate
-    .replace('{x}', '18')
-    .replace('{y}', '24')
-    .replace('{z}', '6');
+    .replace('{x}', String(props.previewTileCoords.x))
+    .replace('{y}', String(props.previewTileCoords.y))
+    .replace('{z}', String(props.previewTileCoords.z));
   if (!url.endsWith('.png')) {
     url += '.png';
   }

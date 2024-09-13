@@ -19,6 +19,7 @@ public class MapServiceProperties {
     private Banner footer = new Banner();
     private List<String> supportedGeometries = Arrays.asList("WKT", "GeoJSON");
     private CRS crs = CRS.EPSG3857;
+    private Coordinate previewTileCoords = new Coordinate(18, 24, 6);
     
     public String getMetricsUri() {
         return metricsUri;
@@ -74,6 +75,14 @@ public class MapServiceProperties {
     
     public void setCrs(CRS crs) {
         this.crs = crs;
+    }
+    
+    public Coordinate getPreviewTileCoords() {
+        return previewTileCoords;
+    }
+    
+    public void setPreviewTileCoords(Coordinate previewTileCoords) {
+        this.previewTileCoords = previewTileCoords;
     }
     
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -169,5 +178,45 @@ public class MapServiceProperties {
     
     public enum CRS {
         Earth, EPSG3395, EPSG3857, EPSG4326, Simple
+    }
+    
+    public static class Coordinate {
+        private int x;
+        private int y;
+        private int z;
+        
+        public Coordinate() {
+            
+        }
+        
+        public Coordinate(int x, int y, int z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+        
+        public int getX() {
+            return x;
+        }
+        
+        public void setX(int x) {
+            this.x = x;
+        }
+        
+        public int getY() {
+            return y;
+        }
+        
+        public void setY(int y) {
+            this.y = y;
+        }
+        
+        public int getZ() {
+            return z;
+        }
+        
+        public void setZ(int z) {
+            this.z = z;
+        }
     }
 }

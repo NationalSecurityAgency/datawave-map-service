@@ -12,7 +12,8 @@ export class SimpleMapStore {
     mapId: string,
     enableAttribution: boolean,
     enableZoomControl: boolean,
-    bounds: L.LatLngBounds,
+    maxBounds: L.LatLngBounds,
+    maxBoundsViscosity: number,
     minZoom: number,
     crs: string
   ) {
@@ -37,11 +38,12 @@ export class SimpleMapStore {
     }
 
     this.map = L.map(mapId, {
-      crs: CRS,
       attributionControl: enableAttribution,
       zoomControl: enableZoomControl,
-      maxBounds: bounds,
+      maxBounds: maxBounds,
+      maxBoundsViscosity: maxBoundsViscosity,
       minZoom: minZoom,
+      crs: CRS
     });
   }
 

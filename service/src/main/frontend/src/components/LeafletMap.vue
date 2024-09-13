@@ -37,13 +37,14 @@ const initMap = () => {
       basemaps
         .initialize()
         .then(() => {
-          const bounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
+          const maxBounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
 
           leafletMap.createMap(
             props.mapId,
             props.enableAttribution,
             props.enableZoomControl,
-            bounds,
+            maxBounds,
+            1,
             2,
             crs
           );

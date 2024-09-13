@@ -8,6 +8,7 @@
   />
   <BasemapPanel
     v-else-if="appStateStore().getConfigPanelSelection === 'Basemaps'"
+    :previewTileCoords="previewTileCoords"
   />
   <GeoToolboxPanel
     v-else-if="appStateStore().getConfigPanelSelection === 'Geo Toolbox'"
@@ -19,11 +20,13 @@
 import { appStateStore } from 'stores/state-store';
 import AddContentPanel from 'components/AddContentPanel.vue';
 import ContentPanel from 'components/ContentPanel.vue';
-import BasemapPanel from 'components/BasemapsPanel.vue';
+import BasemapPanel from 'components/BasemapPanel.vue';
 import GeoToolboxPanel from 'components/GeoToolboxPanel.vue';
+import { Coordinate } from 'components/models';
 
 export interface ConfigPanelProps {
   supportedGeometries: string[];
+  previewTileCoords: Coordinate;
 }
 defineProps<ConfigPanelProps>();
 </script>

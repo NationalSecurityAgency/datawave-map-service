@@ -119,3 +119,9 @@ export interface GeoIndices {
   geoWavePointIndex: string;
   geoWaveGeometryIndex: string[];
 }
+
+export interface Coordinate {
+  x: number;
+  y: number;
+  z: number;
+}
