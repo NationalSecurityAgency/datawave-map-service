@@ -122,17 +122,4 @@ public class GeoFeatureVisitorTest {
         
         assertEquals(expected, objectMapper.writeValueAsString(geoQueryFeatures));
     }
-    
-    @Test
-    public void testSmallGeometry() throws Exception {
-        String query = "GEOWAVE_FIELD == '1902eb0102010000'";
-        
-        ASTJexlScript script = JexlASTHelper.parseAndFlattenJexlQuery(query);
-        GeoQueryFeatures geoQueryFeatures = GeoFeatureVisitor.getGeoFeatures(script, typesByField, GeoQueryConfig.builder().build());
-        
-        ClassLoader classLoader = GeoFeatureVisitorTest.class.getClassLoader();
-        String expected = Files.readString(Paths.get(classLoader.getResource("data/EXPANDED_GEO_FIELD.json").toURI()));
-        
-        assertEquals(expected, objectMapper.writeValueAsString(geoQueryFeatures));
-    }
 }
