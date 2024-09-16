@@ -18,18 +18,24 @@
           size="10px"
           icon="close"
           @click="appState.disableConfigPanel"
-        />
+        >
+          <q-tooltip :delay="1000">Close</q-tooltip>
+        </q-btn>
       </q-card-section>
     </q-card>
     <q-bar dark class="bg-primary text-white">
-      <q-btn dense flat icon="home" @click="initContent" />
+      <q-btn dense flat icon="home" @click="initContent">
+        <q-tooltip :delay="1000">Home</q-tooltip>
+      </q-btn>
       <q-btn
         v-if="content.getFeatureChain.length > 0"
         dense
         flat
         icon="arrow_back"
         @click="content.navigateBack"
-      />
+      >
+        <q-tooltip :delay="1000">Back</q-tooltip>
+      </q-btn>
       <GeoNav
         v-if="content.getFeatureChain.length > 0"
         v-bind="content.getRootFeature"

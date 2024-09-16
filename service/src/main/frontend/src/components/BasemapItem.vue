@@ -34,7 +34,7 @@ import { Coordinate } from 'components/models';
 interface BasemapItem {
   basemap: Basemap;
   selection: Ref<string>;
-  previewTileCoords: Coordinate
+  previewTileCoords: Coordinate;
 }
 
 const radio = ref<QRadio>();

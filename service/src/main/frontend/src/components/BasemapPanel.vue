@@ -18,7 +18,9 @@
           size="10px"
           icon="close"
           @click="appState.disableConfigPanel"
-        />
+        >
+          <q-tooltip :delay="1000">Close</q-tooltip>
+        </q-btn>
       </q-card-section>
     </q-card>
     <q-scroll-area
@@ -29,7 +31,11 @@
         <BasemapItem
           v-for="basemap in basemaps.getBasemaps"
           :key="basemap.title"
-          v-bind="{ basemap: basemap, selection: selectionRef(), previewTileCoords: previewTileCoords }"
+          v-bind="{
+            basemap: basemap,
+            selection: selectionRef(),
+            previewTileCoords: previewTileCoords,
+          }"
         />
       </q-list>
     </q-scroll-area>

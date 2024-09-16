@@ -15,6 +15,7 @@ export class SimpleMapStore {
     maxBounds: L.LatLngBounds,
     maxBoundsViscosity: number,
     minZoom: number,
+    maxZoom: number,
     crs: string
   ) {
     let CRS;
@@ -43,7 +44,7 @@ export class SimpleMapStore {
       maxBounds: maxBounds,
       maxBoundsViscosity: maxBoundsViscosity,
       minZoom: minZoom,
-      crs: CRS
+      crs: CRS,
     });
   }
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import org.geotools.feature.FeatureCollection;
-import org.geotools.geojson.GeoJSON;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -14,6 +13,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import datawave.microservice.map.geojson.GeoJSON;
 
 public class FeatureCollectionSerializer extends JsonSerializer<FeatureCollection<?,?>> {
     private final Logger log = LoggerFactory.getLogger(this.getClass());

@@ -7,10 +7,12 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.jexl3.parser.ASTJexlScript;
+import org.apache.commons.jexl3.parser.JexlNode;
 import org.apache.commons.jexl3.parser.ParseException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -111,6 +113,19 @@ public class GeoFeatureVisitorTest {
     @Test
     public void expandedGeoWithinBoundingBoxFunctionTest() throws ParseException, IOException, URISyntaxException {
         String query = "geo:within_bounding_box(GEO_FIELD, '-10_-10', '10_10')";
+        
+        ASTJexlScript script = JexlASTHelper.parseAndFlattenJexlQuery(query);
+        GeoQueryFeatures geoQueryFeatures = GeoFeatureVisitor.getGeoFeatures(script, typesByField, GeoQueryConfig.builder().build());
+        
+        ClassLoader classLoader = GeoFeatureVisitorTest.class.getClassLoader();
+        String expected = Files.readString(Paths.get(classLoader.getResource("data/EXPANDED_GEO_FIELD.json").toURI()));
+        
+        assertEquals(expected, objectMapper.writeValueAsString(geoQueryFeatures));
+    }
+    
+    @Test
+    public void testSmallGeometry() throws Exception {
+        String query = "GEOWAVE_FIELD == '1902eb0102010000'";
         
         ASTJexlScript script = JexlASTHelper.parseAndFlattenJexlQuery(query);
         GeoQueryFeatures geoQueryFeatures = GeoFeatureVisitor.getGeoFeatures(script, typesByField, GeoQueryConfig.builder().build());

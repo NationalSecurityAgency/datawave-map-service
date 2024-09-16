@@ -23,8 +23,12 @@
                   editDialog = true;
                   editDialogText = geometry;
                 "
-              />
-              <q-btn dense flat icon="upload" @click="selectFile" />
+              >
+                <q-tooltip :delay="1000">Edit</q-tooltip>
+              </q-btn>
+              <q-btn dense flat icon="upload" @click="selectFile">
+                <q-tooltip :delay="1000">Upload</q-tooltip>
+              </q-btn>
             </template>
           </q-input>
         </div>
@@ -43,13 +47,10 @@
       <q-separator inset />
       <div class="q-py-md">
         <div class="row q-pt-md">
-          <q-btn
-            icon="content_copy"
-            flat
-            round
-            size="8px"
-            @click="copyWkt()"
-          /><strong>Well-Known Text (WKT):</strong>
+          <q-btn icon="content_copy" flat round size="8px" @click="copyWkt()">
+            <q-tooltip :delay="1000">Copy Text</q-tooltip>
+          </q-btn>
+          <strong>Well-Known Text (WKT):</strong>
         </div>
         <q-scroll-area
           :content-style="contentStyle"
@@ -65,7 +66,10 @@
             round
             size="8px"
             @click="copyGeoPointIndex()"
-          /><strong>Geo Point Index:</strong>
+          >
+            <q-tooltip :delay="1000">Copy Text</q-tooltip>
+          </q-btn>
+          <strong>Geo Point Index:</strong>
         </div>
         <q-scroll-area
           :content-style="contentStyle"
@@ -81,7 +85,10 @@
             round
             size="8px"
             @click="copyGeoWavePointIndex()"
-          /><strong>GeoWave Point Index:</strong>
+          >
+            <q-tooltip :delay="1000">Copy Text</q-tooltip>
+          </q-btn>
+          <strong>GeoWave Point Index:</strong>
         </div>
         <q-scroll-area
           :content-style="contentStyle"
@@ -97,7 +104,10 @@
             round
             size="8px"
             @click="copyGeoWaveGeometryIndices()"
-          /><strong>GeoWave Geometry Indices:</strong>
+          >
+            <q-tooltip :delay="1000">Copy Text</q-tooltip>
+          </q-btn>
+          <strong>GeoWave Geometry Indices:</strong>
         </div>
         <q-scroll-area
           :content-style="contentStyle"

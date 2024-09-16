@@ -18,7 +18,10 @@
       v-if="appState.isConfigPanelEnabled"
       style="position: absolute; height: 100%; top: 0; left: 0; z-index: 1"
     >
-      <ConfigPanel :supportedGeometries="supportedGeometries" :previewTileCoords="previewTileCoords" />
+      <ConfigPanel
+        :supportedGeometries="supportedGeometries"
+        :previewTileCoords="previewTileCoords"
+      />
     </div>
   </q-page>
 </template>

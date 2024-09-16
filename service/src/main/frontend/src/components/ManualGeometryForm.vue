@@ -23,8 +23,12 @@
                   editDialog = true;
                   editDialogText = manualGeometryForm.geometry;
                 "
-              />
-              <q-btn dense flat icon="upload" @click="selectFile" />
+              >
+                <q-tooltip :delay="1000">Edit</q-tooltip>
+              </q-btn>
+              <q-btn dense flat icon="upload" @click="selectFile">
+                <q-tooltip :delay="1000">Upload</q-tooltip>
+              </q-btn>
             </template>
           </q-input>
         </div>

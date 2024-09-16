@@ -37,7 +37,10 @@ const initMap = () => {
       basemaps
         .initialize()
         .then(() => {
-          const maxBounds = L.latLngBounds(L.latLng(-90, -360), L.latLng(90, 360));
+          const maxBounds = L.latLngBounds(
+            L.latLng(-90, -360),
+            L.latLng(90, 360)
+          );
 
           leafletMap.createMap(
             props.mapId,
@@ -46,10 +49,11 @@ const initMap = () => {
             maxBounds,
             1,
             2,
+            21,
             crs
           );
 
-          leafletMap.setView([0, 0], 3);
+          leafletMap.setView([0, 0], 2.5);
 
           // add the basemap selector panel to the map
           leafletMap.enableLayerControl(props.enableLayerControl);

@@ -9,7 +9,9 @@
           size="10px"
           icon="close"
           @click="appState.disableConfigPanel"
-        />
+        >
+          <q-tooltip :delay="1000">Close</q-tooltip>
+        </q-btn>
       </q-card-section>
     </q-card>
     <q-list bordered class="q-pa-none">
@@ -17,7 +19,7 @@
       <q-expansion-item
         group="contentgroup"
         icon="grid_view"
-        label="Geo Index"
+        label="Geo Indices"
         header-class="text-secondary"
       >
         <GeoIndexForm :supportedGeometries="supportedGeometries" />

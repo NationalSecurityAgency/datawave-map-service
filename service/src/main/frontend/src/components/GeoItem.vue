@@ -14,7 +14,9 @@
         size="18px"
         padding="none"
         @click="drillDown"
-      />
+      >
+        <q-tooltip :delay="1000">Expand</q-tooltip>
+      </q-btn>
     </q-item-section>
     <q-item-section>
       <q-item-label lines="1">
@@ -29,7 +31,9 @@
             round
             size="8px"
             @click="copyLabel()"
-          />
+          >
+            <q-tooltip :delay="1000">Copy Text</q-tooltip>
+          </q-btn>
           {{ displayLabel }}
           <q-btn
             v-if="showEditLabelButton()"
@@ -52,6 +56,7 @@
                 maxlength="20"
               />
             </q-popup-proxy>
+            <q-tooltip :delay="1000">Edit Label</q-tooltip>
           </q-btn>
         </span>
         <span v-if="showDisplayTypeName()" class="text-grey-8">
@@ -66,7 +71,9 @@
           round
           size="8px"
           @click="copyCaption()"
-        />
+        >
+          <q-tooltip :delay="1000">Copy Text</q-tooltip>
+        </q-btn>
         {{ caption }}
       </q-item-label>
     </q-item-section>
@@ -80,7 +87,9 @@
           round
           icon="my_location"
           @click="zoomToBounds"
-        />
+        >
+          <q-tooltip :delay="1000">Zoom to Feature</q-tooltip>
+        </q-btn>
         <q-btn
           class="gt-xs"
           size="14px"
@@ -90,7 +99,9 @@
           :color="isVisible ? 'primary' : 'gray'"
           :icon="isVisible ? 'visibility' : 'visibility_off'"
           @click="toggleVisibility"
-        />
+        >
+          <q-tooltip :delay="1000">Toggle Visibility</q-tooltip>
+        </q-btn>
         <q-btn class="gt-xs" size="14px" flat dense round>
           <div
             :style="[
@@ -110,6 +121,7 @@
               style="max-width: 250px"
             />
           </q-popup-proxy>
+          <q-tooltip :delay="1000">Select Color</q-tooltip>
         </q-btn>
         <q-btn
           v-if="showDeleteButton()"
@@ -120,7 +132,9 @@
           round
           icon="delete"
           @click="deleteFeatures"
-        />
+        >
+          <q-tooltip :delay="1000">Delete Feature</q-tooltip>
+        </q-btn>
       </div>
     </q-item-section>
   </q-item>

@@ -3,7 +3,6 @@ package datawave.microservice.map.data.serialization;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.geotools.geojson.GeoJSON;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.opengis.feature.Feature;
@@ -14,6 +13,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import datawave.microservice.map.geojson.GeoJSON;
 
 public class FeatureSerializer extends JsonSerializer<Feature> {
     private final Logger log = LoggerFactory.getLogger(this.getClass());

@@ -40,11 +40,6 @@ public class MapControllerTest {
         });
     }
     
-    // @Test
-    // public void someTest() {
-    //
-    // }
-    
     @Configuration
     public static class MapControllerTestConfiguration {
         // configuration overrides go here

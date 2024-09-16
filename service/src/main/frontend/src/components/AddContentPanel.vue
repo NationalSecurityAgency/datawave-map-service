@@ -9,7 +9,9 @@
           size="10px"
           icon="close"
           @click="appState.disableConfigPanel"
-        />
+        >
+          <q-tooltip :delay="1000">Close</q-tooltip>
+        </q-btn>
       </q-card-section>
     </q-card>
     <q-list bordered class="q-pa-none">

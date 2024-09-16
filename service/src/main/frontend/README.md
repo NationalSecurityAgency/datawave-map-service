@@ -122,7 +122,7 @@ To simplify debugging, install the Vue.js devtools extension in chrome. This wil
 - Change default polygon colors depending on the basemap
 - Utilities:
   - Convert (single? multiple?) WKT to GeoWave Index
-  - Convert (single? multiple?) WKT to Geo Index
+  - Convert (single? multiple?) WKT to Geo Indices
   - Find/highlight range/term, and geo function matching geometry
   - ~~Split a query geometry naturally (in case of geometry collection) or forcefully~~
   - ~~Set portions of a query as evaluation only with the click of a mouse (query editor?)~~
