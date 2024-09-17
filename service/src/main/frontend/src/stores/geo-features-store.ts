@@ -682,7 +682,21 @@ export function getVisibleBounds(
   feature: TypedFeature | Feature
 ): L.LatLngBounds | undefined {
   visibleBounds = undefined;
-  return getVisibleBoundsInternal(feature);
+  let finalBounds = getVisibleBoundsInternal(feature) as L.LatLngBounds;
+  if (
+    finalBounds.getNorth() - finalBounds.getSouth() == 0 &&
+    finalBounds.getEast() - finalBounds.getWest() == 0
+  ) {
+    // if it's a point, extend the bounds a little
+    const lat = finalBounds.getNorth();
+    const lon = finalBounds.getEast();
+    const buffer = 0.0000001;
+    finalBounds = new L.LatLngBounds(
+      new L.LatLng(lat - buffer, lon - buffer),
+      new L.LatLng(lat + buffer, lon + buffer)
+    );
+  }
+  return finalBounds;
 }
 
 function getVisibleBoundsInternal(

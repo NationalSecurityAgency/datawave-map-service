@@ -48,12 +48,12 @@ const initMap = () => {
             props.enableZoomControl,
             maxBounds,
             1,
-            2,
+            1,
             21,
             crs
           );
 
-          leafletMap.setView([0, 0], 2.5);
+          leafletMap.setView([0, 0], 1.5);
 
           // add the basemap selector panel to the map
           leafletMap.enableLayerControl(props.enableLayerControl);
