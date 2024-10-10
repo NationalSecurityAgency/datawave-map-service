@@ -1,7 +1,5 @@
 target/
-service/logs/**
-logs/**
-**/.DS_Store
+logs/
 
 .idea/
 *.iml
